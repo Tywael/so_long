@@ -10,6 +10,9 @@ SRCS	= main.c\
 		  utils.c\
 		  gnl.c\
 		  ft_realloc.c\
+		  map_checker.c\
+		  map_checker2.c\
+		  utils2.c\
 
 SOURCES =  $(addprefix $(FOLDER), $(SRCS))
 
