@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/13 18:29:24 by yalthaus         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:33:09 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@
 
 typedef struct	s_sprite
 {
-	char	**sprite;
-}				t_sprite
+	char	*sprite;
+}				t_sprite;
 
 typedef struct	s_pos
 {
 	int	x;
 	int	y;
-}				t_pos
+}				t_pos;
+
+typedef struct	s_case
+{
+	t_sprite	bg;
+	t_sprite	elem;
+}				t_case;
 
 typedef struct	s_capacity
 {
@@ -33,41 +39,8 @@ typedef struct	s_capacity
 	t_sprite	*sprite;
 	char		*img;
 	int			dmg;
-}				t_capacity
+}				t_capacity;
 
-typedef struct	s_player
-{
-	char		*name;
-	char		*img;
-	int			life;
-	int			lifemax;
-	t_sprite	*dos;
-	t_sprite	*face;
-	t_sprite	*droite;
-	t_sprite	*gauche;
-	t_pos		*pos;
-	t_capacity	*spell1;
-}				t_player
-
-typedef	struct	s_map
-{
-	char		**map;
-	int			move;
-	int			xmax;
-	int			ymax;
-	t_player	**player;
-	t_monstre	**monstre;
-	t_case		*dirt;
-	t_case		*mur;
-	t_case		**coin;
-	t_case		*exit;
-}				t_map
-
-typedef struct	s_case
-{
-	t_sprite	bg;
-	t_sprite	elem;
-}				t_case
 
 typedef	struct	s_monstre
 {
@@ -75,15 +48,52 @@ typedef	struct	s_monstre
 	char		*img;
 	int			life;
 	int			lifemax;
-	t_sprite	*dos;
+	t_sprite	*back;
 	t_sprite	*face;
-	t_sprite	*droite;
-	t_sprite	*gauche;
+	t_sprite	*right;
+	t_sprite	*left;
 	t_pos		*pos;
 	t_capacity	*spell1;	
-}				t_monstre
+}				t_monstre;
+
+typedef struct	s_player
+{
+	char		*name;
+	int			life;
+	int			lifemax;
+	t_sprite	*back[2];
+	t_sprite	*face[2];
+	t_sprite	*right[2];
+	t_sprite	*left[2];
+	t_pos		*pos;
+	t_capacity	*spell1;
+}				t_player;
+
+typedef	struct	s_map
+{
+	char		**map;
+	int			move;
+	int			xmax;
+	int			ymax;
+	t_player	*player;
+	t_monstre	*monstre;
+	t_case		*dirt;
+	t_case		*wall;
+	t_case		**coin;
+	t_case		*exit;
+}				t_map;
+
+typedef struct	s_game
+{
+	t_map	*map;
+	void	*win;
+	void	*mlx;
+}				t_game;
+
 
 char	*get_next_line(int fd);
+t_game	*init_game(int fd);
+int		ft_mapline(t_map *map);
 char	*map_checker(char **map);
 int		ft_putstr(char *str);
 int		exit_checker(char **map);

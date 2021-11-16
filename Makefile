@@ -8,6 +8,7 @@ FOLDER = src/
 SRCS	= main.c\
 		  read_map.c\
 		  utils.c\
+		  init.c\
 		  gnl.c\
 		  ft_realloc.c\
 		  map_checker.c\

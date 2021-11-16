@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:39:53 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/13 15:18:37 by yalthaus         ###   ########.fr       */
+/*   Updated: 2021/11/16 16:39:16 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	main(int argc, char **argv)
 {
 	int		fd;
-	char	**map;
+	t_game	*game;
 
 	if (argc != 2)
 		return (0);
@@ -29,11 +29,9 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (!fd)
 		return (0);
-	map = read_map(fd);
-	if (ft_putstr(map_checker(map)))
+	game = init_game(fd);
+	if (!game)
 		return (0);
-	if (map == NULL)
-		return (0);
-	while (*map != NULL)
-		printf("%s\n", *(map++));
+	while (game->map->map != NULL)
+		printf("%s\n", *(game->map->map++));
 }
