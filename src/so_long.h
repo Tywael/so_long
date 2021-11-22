@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/16 17:33:09 by yalthaus         ###   ########.fr       */
+/*   Updated: 2021/11/22 18:09:40 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+
+typedef enum e_type
+{
+	monstre = 'M',
+	player = 'P',
+	empty = '0',
+	wall = '1',
+	coin = 'C'
+}				t_type;
 
 typedef struct	s_sprite
 {
@@ -29,8 +38,8 @@ typedef struct	s_pos
 
 typedef struct	s_case
 {
-	t_sprite	bg;
-	t_sprite	elem;
+	void	*content;
+	t_type	type;
 }				t_case;
 
 typedef struct	s_capacity
@@ -75,12 +84,7 @@ typedef	struct	s_map
 	int			move;
 	int			xmax;
 	int			ymax;
-	t_player	*player;
-	t_monstre	*monstre;
-	t_case		*dirt;
-	t_case		*wall;
-	t_case		**coin;
-	t_case		*exit;
+	t_case		***grid;
 }				t_map;
 
 typedef struct	s_game
