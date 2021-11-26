@@ -6,13 +6,14 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/22 18:09:40 by yalthaus         ###   ########.fr       */
+/*   Updated: 2021/11/26 16:13:02 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 # include <unistd.h>
+# include <mlx.h>
 # include <stdlib.h>
 # include <fcntl.h>
 
@@ -27,7 +28,9 @@ typedef enum e_type
 
 typedef struct	s_sprite
 {
-	char	*sprite;
+	void	*sprite;
+	int		w;
+	int		h;
 }				t_sprite;
 
 typedef struct	s_pos
@@ -38,10 +41,11 @@ typedef struct	s_pos
 
 typedef struct	s_case
 {
-	void	*content;
-	t_type	type;
+	void		*content;
+	t_sprite	*background;
+	t_type		type;
 }				t_case;
-
+/*
 typedef struct	s_capacity
 {
 	char		*name;
@@ -49,20 +53,34 @@ typedef struct	s_capacity
 	char		*img;
 	int			dmg;
 }				t_capacity;
+*/
+typedef struct	s_wall
+{
+	t_pos		*pos;
+	t_sprite	*wall;
+}				t_wall;
 
+typedef struct	s_coin
+{
+	t_pos		*pos;
+	int			get;
+	t_sprite	*coin[4];
+}				t_coin;
+
+typedef struct	s_exit
+{
+	t_pos		*pos;
+	int			open;
+	t_sprite	*exit;
+}				t_exit;
 
 typedef	struct	s_monstre
 {
 	char		*name;
-	char		*img;
 	int			life;
 	int			lifemax;
-	t_sprite	*back;
-	t_sprite	*face;
-	t_sprite	*right;
-	t_sprite	*left;
+	t_sprite	*img[2];
 	t_pos		*pos;
-	t_capacity	*spell1;	
 }				t_monstre;
 
 typedef struct	s_player
@@ -75,7 +93,6 @@ typedef struct	s_player
 	t_sprite	*right[2];
 	t_sprite	*left[2];
 	t_pos		*pos;
-	t_capacity	*spell1;
 }				t_player;
 
 typedef	struct	s_map
@@ -84,6 +101,7 @@ typedef	struct	s_map
 	int			move;
 	int			xmax;
 	int			ymax;
+	int			ncoin;
 	t_case		***grid;
 }				t_map;
 
