@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/26 16:13:02 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/04 16:17:55 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,7 @@ typedef struct	s_case
 	t_sprite	*background;
 	t_type		type;
 }				t_case;
-/*
-typedef struct	s_capacity
-{
-	char		*name;
-	t_sprite	*sprite;
-	char		*img;
-	int			dmg;
-}				t_capacity;
-*/
+
 typedef struct	s_wall
 {
 	t_pos		*pos;
@@ -122,7 +114,7 @@ int		exit_checker(char **map);
 int		coin_checker(char **map);
 int		ft_extension(char *name, char *ext);
 int		ft_isinset(char c, char *set);
-void	*ft_realloc(unsigned long ulptr, int size);
+void	*ft_realloc(void *ptr, int size);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *string);
 char	*ft_strdup(const char *src);

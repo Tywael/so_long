@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:54:29 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/26 17:29:33 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/04 16:19:33 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,13 @@ void	malloc_grid(t_game *game)
 	int		y;
 
 	y = -1;
-	game->map->grid = (t_case ***)malloc(game->map->ymax + 1);
+	game->map->grid = (t_case ***)malloc((game->map->ymax + 1) * sizeof(t_case **));
 	if (game->map->grid == NULL)
 		exit(1);
 	while (++y < game->map->ymax)
 	{
 		x = -1;
-		game->map->grid[y] = (t_case **)malloc(game->map->xmax + 1);
+		game->map->grid[y] = (t_case **)malloc((game->map->xmax + 1) * sizeof(t_case *));
 		if (game->map->grid[y] == NULL)
 			exit(1);
 		while (++x < game->map->xmax)
@@ -141,7 +141,7 @@ void	init_grid(t_game *game)
 		x = -1;
 		while (++x < game->map->xmax)
 		{
-			if (game->map->map[x][y] == 'C')
+			if (game->map->map[y][x] == 'C')
 				game->map->ncoin += 1;
 			pos = (t_pos *)malloc(sizeof(t_pos));
 			pos->x = x;
@@ -193,8 +193,9 @@ t_game	*init_game(int fd)
 	if (!game)
 		return (NULL);
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 1920, 1080, "Romancing Saga 42");
+	game->win = mlx_new_window(game->mlx, 800, 600, "Romancing Saga 42");
+	mlx_loop(game->mlx);
+	init_grass(game);
 	init_map(game, fd);
-	//init_grass(game);
 	return (game);
 }

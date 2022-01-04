@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:04:45 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/13 15:54:12 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/04 09:52:25 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**read_map(int fd)
 		if (tmp)
 		{
 			i++;
-			ret = (char **)ft_realloc((unsigned long)ret, sizeof(char *)
+			ret = (char **)ft_realloc(ret, sizeof(char *)
 					* (i + 1));
 			*(ret + i - 1) = tmp;
 		}

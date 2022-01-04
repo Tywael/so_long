@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:39:53 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/19 14:18:31 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/04 16:19:30 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int	main(int argc, char **argv)
 	if (!fd)
 		return (0);
 	game = init_game(fd);
-	if (!game)
-		return (0);
-	while (game->map->map != NULL)
-		printf("%s\n", *(game->map->map++));
+	while (*(game->map->map) != NULL)
+	{
+		printf("%s\n", *(game->map->map));
+		free(*(game->map->map)++);
+	}
 }

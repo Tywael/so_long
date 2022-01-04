@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 11:59:34 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/16 16:40:41 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/04 09:50:38 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_mapline(t_map *map)
 	int	y;
 
 	y = 0;
-	while ((map->map) + y != NULL)
+	while (*(map->map + y) != NULL)
 		y++;
 	return (y);
 }
