@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:54:29 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 10:48:27 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 16:42:42 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +81,27 @@ t_sprite	**init_coin(t_game *game)
 	return (coin);
 }
 
-void	init_case(t_game *game, t_case *cell, char c)
+void	init_case(t_game *game, t_case *cell, char c, t_pos *pos)
 {
 	if (c == '1')
 		cell->sprite = init_wall(game);
 	else if (c == 'C')
 	{
-		cell->status = 1;
+		cell->status = 0;
 		cell->sprite = init_coin(game); 
 	}
 	else if (c == 'P')
+	{
 		cell->sprite = init_player(game); 
+		game->map->player_pos = pos;
+	}
 	else if (c == 'E')
 	{
 		cell->status = 0;
 		cell->sprite = init_exit(game);
 	}
 	else if (c == 'M')
-	{
-		cell->status = 1;
 		cell->sprite = init_monster(game);
-	}
 	else
 		cell->sprite = NULL;
 	cell->type = c;
@@ -151,8 +151,7 @@ void	init_grid(t_game *game)
 			pos = (t_pos *)malloc(sizeof(t_pos));
 			pos->x = x;
 			pos->y = y;
-			init_case(game, game->map->grid[y][x], game->map->map[y][x]);
-			game->map->grid[y][x]->pos = pos;
+			init_case(game, game->map->grid[y][x], game->map->map[y][x], pos);
 		}
 	}
 }
@@ -222,6 +221,7 @@ t_game	*init_game(int fd)
 	init_map(game, fd);
 	init_grass(game);
 	init_obj(game);
+	mlx_hook(game->win, KEY_PRESS, 0, &key_press, game);
 	mlx_loop(game->mlx);
 	return (game);
 }

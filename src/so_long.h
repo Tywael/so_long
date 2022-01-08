@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 10:20:45 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 16:42:47 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 # include <unistd.h>
 # include <mlx.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <fcntl.h>
 
 typedef enum e_type
 {
 	monstre = 'M',
+	end = 'E',
 	player = 'P',
 	empty = '0',
 	wall = '1',
@@ -52,6 +54,7 @@ typedef	struct	s_map
 {
 	char		**map;
 	int			move;
+	t_pos		*player_pos;
 	int			xmax;
 	int			ymax;
 	int			ncoin;
@@ -65,8 +68,17 @@ typedef struct	s_game
 	void	*mlx;
 }				t_game;
 
+# define KEY_PRESS 2
+# define KEY_EXIT 17
+# define KEY_ESC 53
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_B 11
 
 char	*get_next_line(int fd);
+int		key_press(int keycode, t_game *game);
 t_game	*init_game(int fd);
 int		ft_mapline(t_map *map);
 char	*map_checker(char **map);
