@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:54:29 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/04 16:19:33 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 10:48:27 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,85 +20,90 @@ t_sprite *init_sprite(t_game *game, char *path)
 	sprite = (t_sprite *)malloc(sizeof(t_sprite));
 	if (sprite == NULL)
 		exit (1);
-	sprite->sprite = mlx_xpm_file_to_image(game->mlx, path, &sprite->w, &sprite->h);
+	sprite->w = 32;
+	sprite->h = 32;
+	sprite->img = mlx_xpm_file_to_image(game->mlx, path, &sprite->w, &sprite->h);
 	return (sprite);	
 }
 
-void	*init_player(t_game *game, t_pos *pos)
+t_sprite	**init_player(t_game *game)
 {
-	t_player *player;
+	t_sprite	**player;
 
-	player = (t_player *)malloc(sizeof(t_player));
+	player = (t_sprite **)malloc(sizeof(t_sprite *) * 8);
 	if (player == NULL)
 		exit(1);
-	player->name = "Tywael";
-	player->life = 100;
-	player->lifemax = 100;
-	player->pos = pos;
-	player->back[0] = init_sprite(game, "./assets/player/playerback1.xpm");
+	player[0] = init_sprite(game, "./assets/player/playerface1.xpm");
+	player[1] = init_sprite(game, "./assets/player/playerface2.xpm");
+	player[2] = init_sprite(game, "./assets/player/playerback1.xpm");
+	player[3] = init_sprite(game, "./assets/player/playerback2.xpm");
+	player[4] = init_sprite(game, "./assets/player/playerleft1.xpm");
+	player[5] = init_sprite(game, "./assets/player/playerleft2.xpm");
+	player[6] = init_sprite(game, "./assets/player/playerright1.xpm");
+	player[7] = init_sprite(game, "./assets/player/playerright2.xpm");
 	return (player);
 }
 
-void	*init_monster(t_game *game, t_pos *pos)
+t_sprite	**init_monster(t_game *game)
 {
-	t_monstre *mstr;
+	t_sprite	**mstr;
 
-	mstr = (t_monstre *)malloc(sizeof(t_monstre));
-	if (mstr == NULL)
-		exit(1);
-	mstr->name = "Musty le dragon";
-	mstr->life = 1000;
-	mstr->lifemax = 1000;
-	mstr->pos = pos;
-	mstr->img[0] = init_sprite(game, "./assets/monstre/monstre.xpm");
+	mstr = (t_sprite **)malloc((sizeof(t_sprite *)) * 1);
+	*mstr = init_sprite(game, "./assets/monstre/monstre.xpm");
 	return (mstr);
 }
 
-void	*init_wall(t_game *game, t_pos *pos)
+t_sprite	**init_wall(t_game *game)
 {
-	t_wall	*wall;
+	t_sprite	**wall;
 	
-	wall = (t_wall *)malloc(sizeof(t_wall));
-	wall->pos = pos;
-	wall->wall = init_sprite(game, "./assets/terrain/rock.xpm");
+	wall = (t_sprite **)malloc(sizeof(t_sprite *) * 1);
+	
+	*wall = init_sprite(game, "./assets/terrain/rock.xpm");
 	return (wall);
 }
 
-void	*init_exit(t_game *game, t_pos *pos)
+t_sprite	**init_exit(t_game *game)
 {
-	t_exit	*exit;
+	t_sprite	**exit;
 	
-	exit = (t_exit *)malloc(sizeof(t_exit));
-	exit->pos = pos;
-	exit->exit = init_sprite(game, "./assets/terrain/exit.xpm");
+	exit = (t_sprite **)malloc(sizeof(t_sprite *) * 1);
+	*exit = init_sprite(game, "./assets/terrain/exit.xpm");
 	return (exit);
 }
 
-void	*init_coin(t_game *game, t_pos *pos)
+t_sprite	**init_coin(t_game *game)
 {
-	t_coin	*coin;
+	t_sprite	**coin;
 	
-	coin = (t_coin *)malloc(sizeof(t_coin));
-	coin->pos = pos;
-	coin->coin[0] = init_sprite(game, "./assets/terrain/coin.xpm");
+	coin = (t_sprite **)malloc(sizeof(t_sprite *) * 4);
+	*coin = init_sprite(game, "./assets/other/coin.xpm");
 	return (coin);
 }
 
-void	init_case(t_game *game, t_case *cell, char c, t_pos *pos)
+void	init_case(t_game *game, t_case *cell, char c)
 {
-//	if (c == '1')
-//		cell->content = init_wall(game, pos);
-//	else if (c == 'C')
-//		cell->content = init_coin(game, pos);
-//	else if (c == 'P')
-//		cell->content = init_player(game, pos);
-//	else if (c == 'E')
-//		cell->content = init_exit(game, pos);
-//	else if (c == 'M')
-//		cell->content = init_monster(game, pos);
-//	else
-//		cell->content = NULL;
-	(void)pos;
+	if (c == '1')
+		cell->sprite = init_wall(game);
+	else if (c == 'C')
+	{
+		cell->status = 1;
+		cell->sprite = init_coin(game); 
+	}
+	else if (c == 'P')
+		cell->sprite = init_player(game); 
+	else if (c == 'E')
+	{
+		cell->status = 0;
+		cell->sprite = init_exit(game);
+	}
+	else if (c == 'M')
+	{
+		cell->status = 1;
+		cell->sprite = init_monster(game);
+	}
+	else
+		cell->sprite = NULL;
 	cell->type = c;
 	cell->background = init_sprite(game, "./assets/terrain/grass.xpm");
 }
@@ -146,7 +151,8 @@ void	init_grid(t_game *game)
 			pos = (t_pos *)malloc(sizeof(t_pos));
 			pos->x = x;
 			pos->y = y;
-			init_case(game, game->map->grid[y][x], game->map->map[y][x], pos);
+			init_case(game, game->map->grid[y][x], game->map->map[y][x]);
+			game->map->grid[y][x]->pos = pos;
 		}
 	}
 }
@@ -164,6 +170,7 @@ void	init_map(t_game *game, int fd)
 	game->map->ncoin = 0;
 	game->map->xmax = ft_strlen(*(game->map->map));
 	game->map->ymax = ft_mapline(game->map);
+	game->win = mlx_new_window(game->mlx, 32 * game->map->xmax, 32 * game->map->ymax , "Romancing Saga 42");
 	malloc_grid(game);
 	init_grid(game);
 }
@@ -180,7 +187,26 @@ void	init_grass(t_game *game)
 		while (++x < game->map->xmax)
 		{
 			mlx_put_image_to_window(game->mlx, game->win,
-				   	game->map->grid[y][x]->background->sprite, x * 32, y * 32);
+				   	game->map->grid[y][x]->background->img, x * 32, y * 32);
+		}
+	}	
+}
+
+void	init_obj(t_game *game)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < game->map->ymax)
+	{
+		x = -1;
+		while (++x < game->map->xmax)
+		{
+			if (game->map->grid[y][x]->sprite != NULL)
+				mlx_put_image_to_window(game->mlx, game->win,
+					game->map->grid[y][x]->sprite[0]->img, x * 32, y * 32);
+
 		}
 	}	
 }
@@ -193,9 +219,9 @@ t_game	*init_game(int fd)
 	if (!game)
 		return (NULL);
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 800, 600, "Romancing Saga 42");
-	mlx_loop(game->mlx);
-	init_grass(game);
 	init_map(game, fd);
+	init_grass(game);
+	init_obj(game);
+	mlx_loop(game->mlx);
 	return (game);
 }

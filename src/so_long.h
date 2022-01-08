@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/04 16:17:55 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 10:20:45 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum e_type
 
 typedef struct	s_sprite
 {
-	void	*sprite;
+	void	*img;
 	int		w;
 	int		h;
 }				t_sprite;
@@ -41,51 +41,12 @@ typedef struct	s_pos
 
 typedef struct	s_case
 {
-	void		*content;
 	t_sprite	*background;
+	t_sprite	**sprite;
 	t_type		type;
+	t_pos		*pos;
+	int			status;
 }				t_case;
-
-typedef struct	s_wall
-{
-	t_pos		*pos;
-	t_sprite	*wall;
-}				t_wall;
-
-typedef struct	s_coin
-{
-	t_pos		*pos;
-	int			get;
-	t_sprite	*coin[4];
-}				t_coin;
-
-typedef struct	s_exit
-{
-	t_pos		*pos;
-	int			open;
-	t_sprite	*exit;
-}				t_exit;
-
-typedef	struct	s_monstre
-{
-	char		*name;
-	int			life;
-	int			lifemax;
-	t_sprite	*img[2];
-	t_pos		*pos;
-}				t_monstre;
-
-typedef struct	s_player
-{
-	char		*name;
-	int			life;
-	int			lifemax;
-	t_sprite	*back[2];
-	t_sprite	*face[2];
-	t_sprite	*right[2];
-	t_sprite	*left[2];
-	t_pos		*pos;
-}				t_player;
 
 typedef	struct	s_map
 {
