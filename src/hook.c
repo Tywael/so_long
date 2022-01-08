@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 10:49:44 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 16:42:44 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:28:29 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,23 @@ int	can_go(int x, int y, t_game *game)
 	}
 	return (1);
 }
-/*
-int	change_sprite(t_game *game, int x, int y, int value)
+
+
+
+int	change_type(t_game *game, int x, int y, t_type type)
 {
-	mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->background->img, x * 32, y * 32);
-    printf("coin : %d restant : %d\n", game->map->grid[y][x]->status ,game->map->ncoin);
-    if (game->map->grid[y][x]->sprite != NULL && game->map->grid[y][x]->status != 1)
-        mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->sprite[]->img, x * 32, y * 32);
+	game->map->grid[y][x]->old_type = game->map->grid[y][x]->type;
+	game->map->grid[y][x]->type = type;
+	
+
     return (0);
 }
-*/
+
 int	sprite_update(t_game *game, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->background->img, x * 32, y * 32);
-	if (game->map->grid[y][x]->sprite != NULL && game->map->grid[y][x]->status != 1)
-		mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->sprite[0]->img, x * 32, y * 32);
+	mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->background, x * 32, y * 32);
+	if (game->map->grid[y][x]->img != NULL && game->map->grid[y][x]->status != 1)
+		mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->img, x * 32, y * 32);
 	return (0);
 }
 

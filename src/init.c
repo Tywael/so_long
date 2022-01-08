@@ -6,14 +6,14 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:54:29 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 16:42:42 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:30:54 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <stdio.h>
 
-t_sprite *init_sprite(t_game *game, char *path)
+t_sprite *init_sprite(t_game *game)
 {
 	t_sprite	*sprite;
 
@@ -22,90 +22,48 @@ t_sprite *init_sprite(t_game *game, char *path)
 		exit (1);
 	sprite->w = 32;
 	sprite->h = 32;
-	sprite->img = mlx_xpm_file_to_image(game->mlx, path, &sprite->w, &sprite->h);
+	sprite->playerf1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerface1.xpm", &sprite->w, &sprite->h);
+	sprite->playerf2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerface2.xpm", &sprite->w, &sprite->h);
+	sprite->playerb1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerback1.xpm", &sprite->w, &sprite->h);
+	sprite->playerb2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerback2.xpm", &sprite->w, &sprite->h);
+	sprite->playerl1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerleft1.xpm", &sprite->w, &sprite->h);
+	sprite->playerl2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerleft2.xpm", &sprite->w, &sprite->h);
+	sprite->playerr1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerright1.xpm", &sprite->w, &sprite->h);
+	sprite->playerr2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerright2.xpm", &sprite->w, &sprite->h);
+	sprite->exit = mlx_xpm_file_to_image(game->mlx, "./assets/terrain/exit.xpm", &sprite->w, &sprite->h);
+	sprite->coin = mlx_xpm_file_to_image(game->mlx, "./assets/other/coin.xpm", &sprite->w, &sprite->h);
+	sprite->wall = mlx_xpm_file_to_image(game->mlx, "./assets/terrain/rock.xpm", &sprite->w, &sprite->h);
+	sprite->background = mlx_xpm_file_to_image(game->mlx, "./assets/terrain/grass.xpm", &sprite->w, &sprite->h);
+	sprite->monster = NULL;
 	return (sprite);	
-}
-
-t_sprite	**init_player(t_game *game)
-{
-	t_sprite	**player;
-
-	player = (t_sprite **)malloc(sizeof(t_sprite *) * 8);
-	if (player == NULL)
-		exit(1);
-	player[0] = init_sprite(game, "./assets/player/playerface1.xpm");
-	player[1] = init_sprite(game, "./assets/player/playerface2.xpm");
-	player[2] = init_sprite(game, "./assets/player/playerback1.xpm");
-	player[3] = init_sprite(game, "./assets/player/playerback2.xpm");
-	player[4] = init_sprite(game, "./assets/player/playerleft1.xpm");
-	player[5] = init_sprite(game, "./assets/player/playerleft2.xpm");
-	player[6] = init_sprite(game, "./assets/player/playerright1.xpm");
-	player[7] = init_sprite(game, "./assets/player/playerright2.xpm");
-	return (player);
-}
-
-t_sprite	**init_monster(t_game *game)
-{
-	t_sprite	**mstr;
-
-	mstr = (t_sprite **)malloc((sizeof(t_sprite *)) * 1);
-	*mstr = init_sprite(game, "./assets/monstre/monstre.xpm");
-	return (mstr);
-}
-
-t_sprite	**init_wall(t_game *game)
-{
-	t_sprite	**wall;
-	
-	wall = (t_sprite **)malloc(sizeof(t_sprite *) * 1);
-	
-	*wall = init_sprite(game, "./assets/terrain/rock.xpm");
-	return (wall);
-}
-
-t_sprite	**init_exit(t_game *game)
-{
-	t_sprite	**exit;
-	
-	exit = (t_sprite **)malloc(sizeof(t_sprite *) * 1);
-	*exit = init_sprite(game, "./assets/terrain/exit.xpm");
-	return (exit);
-}
-
-t_sprite	**init_coin(t_game *game)
-{
-	t_sprite	**coin;
-	
-	coin = (t_sprite **)malloc(sizeof(t_sprite *) * 4);
-	*coin = init_sprite(game, "./assets/other/coin.xpm");
-	return (coin);
 }
 
 void	init_case(t_game *game, t_case *cell, char c, t_pos *pos)
 {
 	if (c == '1')
-		cell->sprite = init_wall(game);
+		cell->img = game->map->sprite->wall;
 	else if (c == 'C')
 	{
 		cell->status = 0;
-		cell->sprite = init_coin(game); 
+		cell->img =  game->map->sprite->coin;
 	}
 	else if (c == 'P')
 	{
-		cell->sprite = init_player(game); 
+		cell->old_type = empty;
+		cell->img =  game->map->sprite->playerf1; 
 		game->map->player_pos = pos;
 	}
 	else if (c == 'E')
 	{
 		cell->status = 0;
-		cell->sprite = init_exit(game);
+		cell->img =  game->map->sprite->exit;
 	}
 	else if (c == 'M')
-		cell->sprite = init_monster(game);
+		cell->img = game->map->sprite->monster;
 	else
-		cell->sprite = NULL;
+		cell->img = NULL;
 	cell->type = c;
-	cell->background = init_sprite(game, "./assets/terrain/grass.xpm");
+	cell->background = game->map->sprite->background;
 }
 
 void	malloc_grid(t_game *game)
@@ -167,6 +125,7 @@ void	init_map(t_game *game, int fd)
 		exit(1);
 	game->map->move = 0;
 	game->map->ncoin = 0;
+	game->map->sprite = init_sprite(game);
 	game->map->xmax = ft_strlen(*(game->map->map));
 	game->map->ymax = ft_mapline(game->map);
 	game->win = mlx_new_window(game->mlx, 32 * game->map->xmax, 32 * game->map->ymax , "Romancing Saga 42");
@@ -186,7 +145,7 @@ void	init_grass(t_game *game)
 		while (++x < game->map->xmax)
 		{
 			mlx_put_image_to_window(game->mlx, game->win,
-				   	game->map->grid[y][x]->background->img, x * 32, y * 32);
+				   	game->map->grid[y][x]->background, x * 32, y * 32);
 		}
 	}	
 }
@@ -202,9 +161,9 @@ void	init_obj(t_game *game)
 		x = -1;
 		while (++x < game->map->xmax)
 		{
-			if (game->map->grid[y][x]->sprite != NULL)
+			if (game->map->grid[y][x]->img != NULL)
 				mlx_put_image_to_window(game->mlx, game->win,
-					game->map->grid[y][x]->sprite[0]->img, x * 32, y * 32);
+					game->map->grid[y][x]->img, x * 32, y * 32);
 
 		}
 	}	

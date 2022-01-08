@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 16:42:47 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:17:36 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ typedef enum e_type
 
 typedef struct	s_sprite
 {
-	void	*img;
+	void	*background;
+	void	*exit;
+	void	*playerf1;
+	void	*playerf2;
+	void	*playerl1;
+	void	*playerl2;
+	void	*playerr1;
+	void	*playerr2;
+	void	*playerb1;
+	void	*playerb2;
+	void	*coin;
+	void	*wall;
+	void	*monster;
 	int		w;
 	int		h;
 }				t_sprite;
@@ -44,9 +56,10 @@ typedef struct	s_pos
 typedef struct	s_case
 {
 	t_sprite	*background;
-	t_sprite	**sprite;
 	t_type		type;
+	void		*img;
 	t_pos		*pos;
+	t_type		old_type;
 	int			status;
 }				t_case;
 
@@ -54,6 +67,7 @@ typedef	struct	s_map
 {
 	char		**map;
 	int			move;
+	t_sprite	*sprite;
 	t_pos		*player_pos;
 	int			xmax;
 	int			ymax;
