@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 10:49:44 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 18:06:05 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/09 14:02:19 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ int	can_go(int x, int y, t_game *game)
 		return (0);
 	else if (game->map->grid[y][x]->type == monstre)
 		exit(1);
-	else if (game->map->grid[y][x]->type == coin && game->map->grid[y][x]->status == 0)
+	else if (game->map->grid[y][x]->type == coin)
 	{
-		game->map->grid[y][x]->status = 1;
 		game->map->ncoin--;
 		return (1);
 	}
@@ -34,32 +33,44 @@ int	can_go(int x, int y, t_game *game)
 	return (1);
 }
 
-
-
-int	change_type(t_game *game, int x, int y, t_type type)
-{
-	game->map->grid[y][x]->old_type = game->map->grid[y][x]->type;
-	game->map->grid[y][x]->type = type;
-	
-
-    return (0);
-}
-
 int	sprite_update(t_game *game, int x, int y)
 {
 	mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->background, x * 32, y * 32);
-	if (game->map->grid[y][x]->img != NULL && game->map->grid[y][x]->status != 1)
+	if (game->map->grid[y][x]->img != NULL)
 		mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->img, x * 32, y * 32);
 	return (0);
 }
 
-int	move_player(int x, int y, t_game *game)
+int	move_monster(t_game *game)
 {
-	t_case *temp;
+	int	count;
+	t_sprite	*sprite[];
 
-	temp = game->map->grid[game->map->player_pos->y][game->map->player_pos->x];
-	game->map->grid[game->map->player_pos->y][game->map->player_pos->x] = game->map->grid[y][x];
-	game->map->grid[y][x] = temp;
+	count = 0;
+	if (move < 3)
+		sprite = game->map->sprite->slimer;
+	else
+		sprite = game->map->sprite->slimel;
+	
+}
+
+int	move_player(int x, int y, t_game *game, int keycode)
+{
+	void	*sprite;
+
+	sprite = game->map->sprite->playerf[0];
+	if (keycode == KEY_D)
+		sprite = game->map->sprite->playerr[game->map->move % 2];
+	if (keycode == KEY_W)
+		sprite = game->map->sprite->playerb[game->map->move % 2];
+	if (keycode == KEY_S)
+		sprite = game->map->sprite->playerf[game->map->move % 2];
+	if (keycode == KEY_A)
+		sprite = game->map->sprite->playerl[game->map->move % 2];
+	game->map->grid[game->map->player_pos->y][game->map->player_pos->x]->img = NULL;
+	game->map->grid[y][x]->img = sprite;
+	game->map->grid[game->map->player_pos->y][game->map->player_pos->x]->type = empty;
+	game->map->grid[y][x]->type = player;
 	sprite_update(game, x, y);
 	sprite_update(game, game->map->player_pos->x, game->map->player_pos->y);
 	game->map->player_pos->x = x;
@@ -84,7 +95,7 @@ int	player_move(int	keycode, t_game *game)
 		y++;
 	if (can_go(x, y, game))
 	{
-		move_player(x, y, game);
+		move_player(x, y, game, keycode);
 		game->map->move++;
 	}
 	return (0);

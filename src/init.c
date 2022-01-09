@@ -6,12 +6,17 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 17:54:29 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 18:06:03 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/09 13:02:18 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <stdio.h>
+
+void	init_sprite_monster(t_game *game, t_sprite *sprite)
+{
+	sprite->slimef[0] = mlx_xpm_file_to_image(game->mlx,"./assets/monstre/slimef0.xpm", &sprite->w, &sprite->h);
+}
 
 t_sprite *init_sprite(t_game *game)
 {
@@ -22,44 +27,34 @@ t_sprite *init_sprite(t_game *game)
 		exit (1);
 	sprite->w = 32;
 	sprite->h = 32;
-	sprite->playerf1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerface1.xpm", &sprite->w, &sprite->h);
-	sprite->playerf2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerface2.xpm", &sprite->w, &sprite->h);
-	sprite->playerb1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerback1.xpm", &sprite->w, &sprite->h);
-	sprite->playerb2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerback2.xpm", &sprite->w, &sprite->h);
-	sprite->playerl1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerleft1.xpm", &sprite->w, &sprite->h);
-	sprite->playerl2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerleft2.xpm", &sprite->w, &sprite->h);
-	sprite->playerr1 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerright1.xpm", &sprite->w, &sprite->h);
-	sprite->playerr2 = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerright2.xpm", &sprite->w, &sprite->h);
+	sprite->playerf[0] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerface1.xpm", &sprite->w, &sprite->h);
+	sprite->playerf[1] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerface2.xpm", &sprite->w, &sprite->h);
+	sprite->playerb[0] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerback1.xpm", &sprite->w, &sprite->h);
+	sprite->playerb[1] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerback2.xpm", &sprite->w, &sprite->h);
+	sprite->playerl[0] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerleft1.xpm", &sprite->w, &sprite->h);
+	sprite->playerl[1] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerleft2.xpm", &sprite->w, &sprite->h);
+	sprite->playerr[0] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerright1.xpm", &sprite->w, &sprite->h);
+	sprite->playerr[1] = mlx_xpm_file_to_image(game->mlx,"./assets/player/playerright2.xpm", &sprite->w, &sprite->h);
 	sprite->exit = mlx_xpm_file_to_image(game->mlx, "./assets/terrain/exit.xpm", &sprite->w, &sprite->h);
 	sprite->coin = mlx_xpm_file_to_image(game->mlx, "./assets/other/coin.xpm", &sprite->w, &sprite->h);
 	sprite->wall = mlx_xpm_file_to_image(game->mlx, "./assets/terrain/rock.xpm", &sprite->w, &sprite->h);
 	sprite->background = mlx_xpm_file_to_image(game->mlx, "./assets/terrain/grass.xpm", &sprite->w, &sprite->h);
-	sprite->monster = NULL;
+	init_sprite_monster(game, sprite);
 	return (sprite);	
 }
 
-void	init_case(t_game *game, t_case *cell, char c, t_pos *pos)
+void	init_case(t_game *game, t_case *cell, char c)
 {
 	if (c == '1')
 		cell->img = game->map->sprite->wall;
 	else if (c == 'C')
-	{
-		cell->status = 0;
 		cell->img =  game->map->sprite->coin;
-	}
 	else if (c == 'P')
-	{
-		cell->old_type = empty;
-		cell->img =  game->map->sprite->playerf1; 
-		game->map->player_pos = pos;
-	}
+		cell->img =  game->map->sprite->playerf[0]; 
 	else if (c == 'E')
-	{
-		cell->status = 0;
 		cell->img =  game->map->sprite->exit;
-	}
 	else if (c == 'M')
-		cell->img = game->map->sprite->monster;
+		cell->img = game->map->sprite->slimef[0];
 	else
 		cell->img = NULL;
 	cell->type = c;
@@ -91,12 +86,24 @@ void	malloc_grid(t_game *game)
 	}
 	game->map->grid[y] = NULL;
 }
+int	init_pos(int x, int y, char c, t_game *game)
+{	
+	t_pos	*pos;
+
+	pos = (t_pos *)malloc(sizeof(t_pos));
+	pos->x = x;
+	pos->y = y;
+	if (c == 'M')
+		game->map->monster_pos = pos;
+	else
+		game->map->player_pos = pos;
+	return (0);
+}
 
 void	init_grid(t_game *game)
 {
 	int		x;
 	int		y;
-	t_pos	*pos;
 
 	y = -1;
 	while (++y < game->map->ymax)
@@ -106,10 +113,9 @@ void	init_grid(t_game *game)
 		{
 			if (game->map->map[y][x] == 'C')
 				game->map->ncoin += 1;
-			pos = (t_pos *)malloc(sizeof(t_pos));
-			pos->x = x;
-			pos->y = y;
-			init_case(game, game->map->grid[y][x], game->map->map[y][x], pos);
+			if (game->map->map[y][x] == 'M' || game->map->map[y][x] == 'P')
+				init_pos(x, y, game->map->map[y][x], game);
+			init_case(game, game->map->grid[y][x], game->map->map[y][x]);
 		}
 	}
 }

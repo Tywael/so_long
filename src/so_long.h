@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:07:47 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/08 18:06:08 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/09 14:02:33 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,13 @@ typedef struct	s_sprite
 {
 	void	*background;
 	void	*exit;
-	void	*playerf1;
-	void	*playerf2;
-	void	*playerl1;
-	void	*playerl2;
-	void	*playerr1;
-	void	*playerr2;
-	void	*playerb1;
-	void	*playerb2;
+	void	*playerf[2];
+	void	*playerl[2];
+	void	*playerr[2];
+	void	*playerb[2];
+	void	*slimef;
 	void	*coin;
 	void	*wall;
-	void	*monster;
 	int		w;
 	int		h;
 }				t_sprite;
@@ -69,6 +65,8 @@ typedef	struct	s_map
 	int			move;
 	t_sprite	*sprite;
 	t_pos		*player_pos;
+	t_pos		*monster_pos;
+	int			monster_move;
 	int			xmax;
 	int			ymax;
 	int			ncoin;
