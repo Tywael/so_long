@@ -15,6 +15,9 @@ SRCS	= main.c\
 		  map_checker2.c\
 		  utils2.c\
 		  hook.c\
+		  itoa.c\
+		  hook_monster.c\
+		  init_map.c\
 
 SOURCES =  $(addprefix $(FOLDER), $(SRCS))
 

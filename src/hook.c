@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 10:49:44 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/09 14:02:19 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/09 19:35:43 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,12 @@ int	can_go(int x, int y, t_game *game)
 
 int	sprite_update(t_game *game, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->background, x * 32, y * 32);
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->map->grid[y][x]->background, x * 32, y * 32);
 	if (game->map->grid[y][x]->img != NULL)
-		mlx_put_image_to_window(game->mlx, game->win, game->map->grid[y][x]->img, x * 32, y * 32);
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->map->grid[y][x]->img, x * 32, y * 32);
 	return (0);
-}
-
-int	move_monster(t_game *game)
-{
-	int	count;
-	t_sprite	*sprite[];
-
-	count = 0;
-	if (move < 3)
-		sprite = game->map->sprite->slimer;
-	else
-		sprite = game->map->sprite->slimel;
-	
 }
 
 int	move_player(int x, int y, t_game *game, int keycode)
@@ -67,9 +56,11 @@ int	move_player(int x, int y, t_game *game, int keycode)
 		sprite = game->map->sprite->playerf[game->map->move % 2];
 	if (keycode == KEY_A)
 		sprite = game->map->sprite->playerl[game->map->move % 2];
-	game->map->grid[game->map->player_pos->y][game->map->player_pos->x]->img = NULL;
+	game->map->grid[game->map->player_pos->y][game->map->player_pos->x]->img
+		= NULL;
 	game->map->grid[y][x]->img = sprite;
-	game->map->grid[game->map->player_pos->y][game->map->player_pos->x]->type = empty;
+	game->map->grid[game->map->player_pos->y][game->map->player_pos->x]->type
+		= empty;
 	game->map->grid[y][x]->type = player;
 	sprite_update(game, x, y);
 	sprite_update(game, game->map->player_pos->x, game->map->player_pos->y);
@@ -78,7 +69,7 @@ int	move_player(int x, int y, t_game *game, int keycode)
 	return (0);
 }
 
-int	player_move(int	keycode, t_game *game)
+int	player_move(int keycode, t_game *game)
 {
 	int	x;
 	int	y;
@@ -98,6 +89,7 @@ int	player_move(int	keycode, t_game *game)
 		move_player(x, y, game, keycode);
 		game->map->move++;
 	}
+	draw_move(game);
 	return (0);
 }
 
@@ -105,9 +97,9 @@ int	key_press(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
 		exit (0);
-	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D)
+	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S
+		|| keycode == KEY_D)
 		if (player_move(keycode, game))
 			return (1);
 	return (0);
-
 }
