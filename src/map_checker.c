@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 11:36:56 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/13 15:54:10 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/11 09:32:41 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ char	*map_checker(char **map)
 		return ("Nombre de sortie incorect");
 	if (coin_checker(map))
 		return ("Trop peu de coin sur la map");
+	if (monster_checker(map))
+		return ("Trop de monstre sur la map");
 	return ("");
 }

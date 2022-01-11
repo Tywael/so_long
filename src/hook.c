@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 10:49:44 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/09 19:35:43 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/11 09:55:56 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	can_go(int x, int y, t_game *game)
 	if (game->map->grid[y][x]->type == wall)
 		return (0);
 	else if (game->map->grid[y][x]->type == monstre)
-		exit(1);
+		close_game(game);
 	else if (game->map->grid[y][x]->type == coin)
 	{
 		game->map->ncoin--;
@@ -26,7 +26,7 @@ int	can_go(int x, int y, t_game *game)
 	else if (game->map->grid[y][x]->type == end)
 	{
 		if (game->map->ncoin == 0)
-			exit(0);
+			close_game(game);
 		else
 			return (0);
 	}
@@ -96,7 +96,7 @@ int	player_move(int keycode, t_game *game)
 int	key_press(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
-		exit (0);
+		close_game(game);
 	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S
 		|| keycode == KEY_D)
 		if (player_move(keycode, game))

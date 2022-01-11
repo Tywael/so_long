@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 18:38:24 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/09 19:53:33 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/11 09:55:34 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_game
 int			move_monster(t_game *game);
 char		*get_next_line(int fd);
 char		*ft_itoa(int n);
+void		close_game(t_game *game);
 void		draw_move(t_game *game);
 int			key_press(int keycode, t_game *game);
 t_game		*init_game(int fd);
@@ -105,6 +106,7 @@ char		*map_checker(char **map);
 int			ft_putstr(char *str);
 int			exit_checker(char **map);
 int			coin_checker(char **map);
+int			monster_checker(char **map);
 int			ft_extension(char *name, char *ext);
 int			ft_isinset(char c, char *set);
 void		*ft_realloc(void *ptr, int size);

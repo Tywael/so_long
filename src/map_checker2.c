@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 15:21:55 by yalthaus          #+#    #+#             */
-/*   Updated: 2021/11/13 15:29:40 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/11 09:32:25 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@ int	coin_checker(char **map)
 	if (!coin)
 		return (1);
 	return (0);
+}
+
+int	monster_checker(char **map)
+{
+	int	x;
+	int	y;
+	int	mstr;
+
+	y = -1;
+	mstr = 0;
+	while (*(map + ++y) != NULL)
+	{
+		x = -1;
+		while (*(*(map + y) + ++x))
+			if (*(*(map + y) + x) == 'M')
+				mstr++;
+	}
+	return (mstr > 1);
 }
 
 int	exit_checker(char **map)

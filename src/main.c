@@ -6,13 +6,36 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:39:53 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/09 19:56:33 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/11 10:13:23 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <stdio.h>
 #include "so_long.h"
+
+void	close_game(t_game *game)
+{
+	int	x;
+	int	y;
+
+	free(game->map->sprite);
+	free(game->map->monster_pos);
+	free(game->map->player_pos);
+	y = -1;
+	while (game->map->ymax >= ++y)
+	{
+		x = -1;
+		while (game->map->xmax >= ++x)
+			free(game->map->grid[y][x]);
+		free(game->map->grid[y]);
+		free(game->map->map[y]);
+	}
+	free(game->map->grid);
+	free(game->map->map);
+	free(game->map);
+	free(game);
+}
 
 void	init_grass(t_game *game)
 {
@@ -75,19 +98,20 @@ int	main(int argc, char **argv)
 	t_game	*game;
 
 	if (argc != 2)
+	{
+		write(1, "Nombre argument incorecte", 25);
 		return (0);
+	}
 	if (ft_extension(*(argv + 1), ".ber"))
 	{
 		write(1, "extension incorrect", 19);
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
-	if (!fd)
-		return (0);
-	game = init_game(fd);
-	while (*(game->map->map) != NULL)
+	if (fd < 0)
 	{
-		printf("%s\n", *(game->map->map));
-		free(*(game->map->map)++);
+		write(1, "fichier inexistant", 18);
+		return (0);
 	}
+	game = init_game(fd);
 }
