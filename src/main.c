@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:39:53 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/11 10:13:23 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/01/31 15:44:22 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	close_game(t_game *game)
 	free(game->map->monster_pos);
 	free(game->map->player_pos);
 	y = -1;
-	while (game->map->ymax >= ++y)
+	while (game->map->ymax > ++y)
 	{
 		x = -1;
-		while (game->map->xmax >= ++x)
+		while (game->map->xmax > ++x)
 			free(game->map->grid[y][x]);
 		free(game->map->grid[y]);
 		free(game->map->map[y]);
@@ -35,6 +35,7 @@ void	close_game(t_game *game)
 	free(game->map->map);
 	free(game->map);
 	free(game);
+	exit(0);
 }
 
 void	init_grass(t_game *game)

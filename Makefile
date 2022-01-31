@@ -1,5 +1,5 @@
 CC 			= gcc
-CFLAGS		= -Wall -Wextra -Werror -Imlx -fsanitize=address -g
+CFLAGS		= -Wall -Wextra -Werror -Imlx -g -fsanitize=address
 OPTIONS 	= -Lmlx -lmlx -lz -framework OpenGL -framework AppKit
 NAME		= so_long
 
