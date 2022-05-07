@@ -112,4 +112,5 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	init_game(fd);
+	while (1);
 }
