@@ -73,13 +73,13 @@ void	init_obj(t_game *game)
 	}
 }
 
-t_game	*init_game(int fd)
+void	init_game(int fd)
 {
 	t_game	*game;
 
 	game = (t_game *)malloc(sizeof(t_game));
 	if (!game)
-		return (NULL);
+		return ;
 	game->mlx = mlx_init();
 	init_map(game, fd);
 	init_grass(game);
@@ -89,13 +89,11 @@ t_game	*init_game(int fd)
 	if (game->map->monster_pos)
 		mlx_loop_hook(game->mlx, move_monster, game);
 	mlx_loop(game->mlx);
-	return (game);
 }
 
 int	main(int argc, char **argv)
 {
 	int		fd;
-	t_game	*game;
 
 	if (argc != 2)
 	{
@@ -113,5 +111,5 @@ int	main(int argc, char **argv)
 		write(1, "fichier inexistant", 18);
 		return (0);
 	}
-	game = init_game(fd);
+	init_game(fd);
 }

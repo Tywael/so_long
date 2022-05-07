@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_int_str_to_wordtab.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/04 12:51:51 by yalthaus          #+#    #+#             */
+/*   Updated: 2022/03/04 12:51:51 by yalthaus         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 //
 // str 2 wordtab & co
 // by ol
@@ -76,11 +88,11 @@ char	**mlx_int_str_to_wordtab(char *str)
   pos = 0;
   while (pos<len)
   {
-    while (*(str+pos)==' ' || *(str+pos)=='\t')
+    while (*(str+pos)==' ' || *(str+pos)=='	')
       pos ++;
     if (*(str+pos))
       nb_word ++;
-    while (*(str+pos) && *(str+pos)!=' ' && *(str+pos)!='\t')
+    while (*(str+pos) && *(str+pos)!=' ' && *(str+pos)!='	')
       pos ++;
   }
   if (!(tab = malloc((1+nb_word)*sizeof(*tab))))
@@ -89,7 +101,7 @@ char	**mlx_int_str_to_wordtab(char *str)
   pos = 0;
   while (pos<len)
     {
-      while (*(str+pos)==' ' || *(str+pos)=='\t')
+      while (*(str+pos)==' ' || *(str+pos)=='	')
 	{
 	  *(str+pos) = 0;
 	  pos ++;
@@ -99,7 +111,7 @@ char	**mlx_int_str_to_wordtab(char *str)
 	  tab[nb_word] = str+pos;
 	  nb_word ++;
 	}
-      while (*(str+pos) && *(str+pos)!=' ' && *(str+pos)!='\t')
+      while (*(str+pos) && *(str+pos)!=' ' && *(str+pos)!='	')
 	pos ++;
     }
   tab[nb_word] = 0;

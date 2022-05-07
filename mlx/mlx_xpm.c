@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_xpm.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/04 12:51:51 by yalthaus          #+#    #+#             */
+/*   Updated: 2022/03/04 12:51:51 by yalthaus         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 // mlx xpm
 // by ol
 
@@ -293,7 +305,8 @@ void	mlx_int_file_get_rid_comment(char *ptr, int size)
     }
   while ((com_begin = mlx_int_str_str_cote(ptr,"//",size))!=-1)
     {
-      com_end = mlx_int_str_str(ptr+com_begin+2,"\n",size-com_begin-2);
+      com_end = mlx_int_str_str(ptr+com_begin+2,"
+",size-com_begin-2);
       memset(ptr+com_begin,' ',com_end+3);
     }
 }

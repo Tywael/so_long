@@ -99,7 +99,7 @@ char		*ft_itoa(int n);
 void		close_game(t_game *game);
 void		draw_move(t_game *game);
 int			key_press(int keycode, t_game *game);
-t_game		*init_game(int fd);
+void		init_game(int fd);
 t_sprite	*init_sprite(t_game *game);
 int			ft_mapline(t_map *map);
 char		*map_checker(char **map);
