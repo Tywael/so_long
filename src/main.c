@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:39:53 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/11 10:13:23 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/02/14 14:58:01 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	close_game(t_game *game)
 	free(game->map->monster_pos);
 	free(game->map->player_pos);
 	y = -1;
-	while (game->map->ymax >= ++y)
+	while (game->map->ymax > ++y)
 	{
 		x = -1;
-		while (game->map->xmax >= ++x)
+		while (game->map->xmax > ++x)
 			free(game->map->grid[y][x]);
 		free(game->map->grid[y]);
 		free(game->map->map[y]);
@@ -35,6 +35,7 @@ void	close_game(t_game *game)
 	free(game->map->map);
 	free(game->map);
 	free(game);
+	exit(0);
 }
 
 void	init_grass(t_game *game)
@@ -97,20 +98,19 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		write(1, "Nombre argument incorecte", 25);
+		write(1, "Error\nNombre argument incorecte", 31);
 		return (0);
 	}
 	if (ft_extension(*(argv + 1), ".ber"))
 	{
-		write(1, "extension incorrect", 19);
+		write(1, "Error\nextension incorrect", 25);
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
-		write(1, "fichier inexistant", 18);
+		write(1, "Error\nfichier inexistant", 24);
 		return (0);
 	}
 	init_game(fd);
-	while (1);
 }

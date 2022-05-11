@@ -6,7 +6,7 @@
 /*   By: yalthaus <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 11:36:56 by yalthaus          #+#    #+#             */
-/*   Updated: 2022/01/11 09:32:41 by yalthaus         ###   ########.fr       */
+/*   Updated: 2022/02/14 14:57:10 by yalthaus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ int	player_checker(char **map)
 char	*map_checker(char **map)
 {
 	if (map_char(map))
-		return ("Charactere de la map non reconnu");
+		return ("Error\nCharactere de la map non reconnu");
 	if (map_square(map))
-		return ("La map n'est pas rectangulaire");
+		return ("Error\nLa map n'est pas rectangulaire");
 	if (map_border(map))
-		return ("Bord de map incorrect");
+		return ("Error\nBord de map incorrect");
 	if (player_checker(map))
-		return ("Nombre de joueur incorect");
+		return ("Error\nNombre de joueur incorect");
 	if (exit_checker(map))
-		return ("Nombre de sortie incorect");
+		return ("Error\nNombre de sortie incorect");
 	if (coin_checker(map))
-		return ("Trop peu de coin sur la map");
+		return ("Error\nTrop peu de coin sur la map");
 	if (monster_checker(map))
-		return ("Trop de monstre sur la map");
+		return ("Error\nTrop de monstre sur la map");
 	return ("");
 }
