@@ -96,7 +96,7 @@ typedef struct s_game
 int			move_monster(t_game *game);
 char		*get_next_line(int fd);
 char		*ft_itoa(int n);
-void		close_game(t_game *game);
+int			close_game(t_game *game);
 void		draw_move(t_game *game);
 int			key_press(int keycode, t_game *game);
 t_game		*init_game(int fd);

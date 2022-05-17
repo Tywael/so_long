@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "so_long.h"
 
-void	close_game(t_game *game)
+int	close_game(t_game *game)
 {
 	int	x;
 	int	y;
@@ -87,6 +87,7 @@ t_game	*init_game(int fd)
 	init_obj(game);
 	draw_move(game);
 	mlx_hook(game->win, KEY_PRESS, 0, &key_press, game);
+	mlx_hook(game->win, KEY_EXIT, 0, &close_game, game);
 	if (game->map->monster_pos)
 		mlx_loop_hook(game->mlx, move_monster, game);
 	mlx_loop(game->mlx);
