@@ -19,8 +19,6 @@ void	draw_move(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->map->sprite->move,
 		0, 0);
 	move = ft_itoa(game->map->move);
-	//write(1, move, ft_strlen(move));
-	//write(1, "\n", 1);
 	mlx_string_put(game->mlx, game->win, 5, 16, 0x99000000,
 		"Movements : ");
 	mlx_string_put(game->mlx, game->win, 100, 16, 0x99000000,
