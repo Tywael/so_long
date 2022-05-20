@@ -85,18 +85,18 @@ int	player_checker(char **map)
 char	*map_checker(char **map)
 {
 	if (map_char(map))
-		return ("Error\nCharactere de la map non reconnu");
+		return ("Error:\nCharactere de la map non reconnu\n");
 	if (map_square(map))
-		return ("Error\nLa map n'est pas rectangulaire");
+		return ("Error:\nLa map n'est pas rectangulaire\n");
 	if (map_border(map))
-		return ("Error\nBord de map incorrect");
+		return ("Error:\nBord de map incorrect\n");
 	if (player_checker(map))
-		return ("Error\nNombre de joueur incorect");
+		return ("Error:\nNombre de joueur incorect\n");
 	if (exit_checker(map))
-		return ("Error\nNombre de sortie incorect");
+		return ("Error:\nNombre de sortie incorect\n");
 	if (coin_checker(map))
-		return ("Error\nTrop peu de coin sur la map");
+		return ("Error:\nTrop peu de coin sur la map\n");
 	if (monster_checker(map))
-		return ("Error\nTrop de monstre sur la map");
+		return ("Error:\nTrop de monstre sur la map\n");
 	return ("");
 }

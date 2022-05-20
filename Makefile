@@ -48,7 +48,6 @@ $(NAME): $(OBJECTS)
 
 clean:
 	rm -f $(OBJECTS)
-	rm -f $(OBJECTS_BONUS)
 
 fclean: clean
 	rm -f $(NAME)

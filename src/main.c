@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "so_long.h"
 
-void	close_game(t_game *game)
+int	close_game(t_game *game)
 {
 	int	x;
 	int	y;
@@ -87,6 +87,7 @@ void	init_game(int fd)
 	init_obj(game);
 	draw_move(game);
 	mlx_hook(game->win, KEY_PRESS, 0, &key_press, game);
+	mlx_hook(game->win, KEY_EXIT, 0, &close_game, game);
 	if (game->map->monster_pos)
 		mlx_loop_hook(game->mlx, move_monster, game);
 	mlx_loop(game->mlx);
@@ -98,18 +99,18 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		write(1, "Error\nNombre argument incorecte", 31);
+		write(1, "Error:\nNombre argument incorecte\n", 33);
 		return (0);
 	}
 	if (ft_extension(*(argv + 1), ".ber"))
 	{
-		write(1, "Error\nextension incorrect", 25);
+		write(1, "Error:\nextension incorrect\n", 27);
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
-		write(1, "Error\nfichier inexistant", 24);
+		write(1, "Error:\nproblème de fichier\n", 29);
 		return (0);
 	}
 	init_game(fd);
