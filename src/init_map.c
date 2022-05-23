@@ -99,7 +99,7 @@ void	init_map(t_game *game, int fd)
 		exit(1);
 	game->map->map = read_map(fd);
 	if (game->map->map[0] == NULL)
-		exit(write(1, "Error:\n Map vide ? wtf\n", 23));
+		exit(write(1, "Error:\nMap vide ? wtf\n", 23));
 	if (ft_putstr(map_checker(game->map->map)))
 		exit(1);
 	game->map->move = 0;
